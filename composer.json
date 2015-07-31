@@ -24,7 +24,7 @@
 		"composer/installers": "1.*",
 		"hypejunction/hypeapps": ">4.0",
 		"hypejunction/hypeprototyper": "*",
-		"respect/validators": "~0.9.0"
+		"respect/validators": "0.9.*"
 	},
 	"config": {
 		"preferred-install": "source"
