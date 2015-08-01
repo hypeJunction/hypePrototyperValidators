@@ -1,7 +1,8 @@
 <?php
 
-use hypeJunction\Prototyper\Elements\ValidationStatus;
 use hypeJunction\Prototyper\Elements\Field;
+use hypeJunction\Prototyper\Elements\ImageUploadField;
+use hypeJunction\Prototyper\Elements\ValidationStatus;
 use Respect\Validation\Validator as v;
 
 /**
@@ -316,6 +317,68 @@ function prototyper_validate_regex($hook, $type, $validation, $params) {
 }
 
 /**
+ * Validates that input matches a regex
+ *
+ * @param string           $hook       "validate:img_min_width"
+ * @param string           $type       "prototyper"
+ * @param ValidationStatus $validation Current validation status
+ * @param array            $params     Hook params
+ * @return ValidationStatus
+ */
+function prototyper_validate_img_dimensions($hook, $type, $validation, $params) {
+	if (!$validation instanceof ValidationStatus) {
+		$validation = new ValidationStatus();
+	}
+
+	$field = elgg_extract('field', $params);
+	if (!$field instanceof ImageUploadField) {
+		return $validation;
+	}
+
+	$value = elgg_extract('value', $params);
+	$expectation = elgg_extract('expectation', $params);
+
+	$img = elgg_extract('tmp_name', $value);
+	$sizeinfo = getimagesize($img);
+
+	if (!$sizeinfo) {
+		$validation->setFail(elgg_echo('prototyper:validate:error:image_dimensions', array($field->getLabel())));
+		return $validation;
+	}
+
+	list($width, $height) = $sizeinfo;
+
+	$rule = elgg_extract('rule', $params);
+	switch ($rule) {
+		case 'img_min_width' :
+			if ($width < $expectation) {
+				$validation->setFail(elgg_echo('prototyper:validate:error:img_min_width', array($field->getLabel(), $expectation)));
+			}
+			break;
+
+		case 'img_max_width' :
+			if ($width > $expectation) {
+				$validation->setFail(elgg_echo('prototyper:validate:error:img_max_width', array($field->getLabel(), $expectation)));
+			}
+			break;
+
+		case 'img_min_height' :
+			if ($height < $expectation) {
+				$validation->setFail(elgg_echo('prototyper:validate:error:img_min_height', array($field->getLabel(), $expectation)));
+			}
+			break;
+
+		case 'img_max_height' :
+			if ($height > $expectation) {
+				$validation->setFail(elgg_echo('prototyper:validate:error:img_max_height', array($field->getLabel(), $expectation)));
+			}
+			break;
+	}
+
+	return $validation;
+}
+
+/**
  * Filters input view vars
  *
  * @param string $hook   "input_vars"
@@ -357,18 +420,19 @@ function prototyper_filter_input_view_vars($hook, $type, $return, $params) {
 				break;
 
 			default:
-				$return["data-parsley-$rule"] = $expectation;
+				$attr = preg_replace('/[^a-z0-9\-]/i', '-', "data-parsley-$rule");
+				$return[$attr] = $expectation;
 				break;
 		}
 	}
 
 	$return['data-parsley-trigger'] = 'change';
-	if ($field->isRequired()) {
-		$return['data-parsley-required'] = true;
-	}
+//	if ($field->isRequired()) {
+//		$return['data-parsley-required'] = true;
+//	}
 	if ($field->isMultiple() || in_array($field->getType(), array('checkboxes', 'radio'))) {
 		$return['data-parsley-multiple'] = $field->getShortname();
 	}
-	
+
 	return $return;
 }
