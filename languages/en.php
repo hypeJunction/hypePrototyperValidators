@@ -40,6 +40,16 @@ $validation = array(
 	'prototyper:validate:maxlength' => 'Should not be longer than %s characters',
 	'prototyper:validate:contains' => 'Must contain "%s"',
 	'prototyper:validate:regex' => 'Should match pattern "%s"',
+	'prototyper:validate:img_min_width' => 'Width of no less than %spx',
+	'prototyper:validate:img_max_width' => 'Width of no more than %spx',
+	'prototyper:validate:img_min_height' => 'Height of no less than %spx',
+	'prototyper:validate:img_max_height' => 'Height of no less than %spx',
+
+	'prototyper:validate:error:image_dimensions' => 'Field %s expects a valid image',
+	'prototyper:validate:error:img_min_width' => 'Field %s expects an image with a minimum width of %spx',
+	'prototyper:validate:error:img_max_width' => 'Field %s expects an image with a maximum width of %spx',
+	'prototyper:validate:error:img_min_height' => 'Field %s expects an image with a minimum height of %spx',
+	'prototyper:validate:error:img_max_height' => 'Field %s expects an image with a maximum height of %spx',
 
 );
 
