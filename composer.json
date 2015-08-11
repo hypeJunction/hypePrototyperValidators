@@ -1,34 +1,29 @@
 {
 	"name": "hypejunction/hypeprototypervalidators",
+	"version": "4.0.0",
 	"type": "elgg-plugin",
 	"description": "hypePrototyper validation rules",
 	"homepage": "http://hypejunction.com",
 	"keywords": [
 		"elgg", "plugin", "prototypes", "forms", "validators"
 	],
-	"license": "BSD Style",
+	"license": "GPL-2.0",
 	"authors": [
 		{
 			"name": "Ismayil Khayredinov",
-			"email": "ismayil@hypejunction.com"
+			"email": "info@hypejunction.com"
 		}
 	],
 	"extra": {
 		"installer-name": "hypePrototyperValidators"
 	},
-	"config": {
-		"vendor-dir": "/vendor/"
-	},
 	"require": {
-		"php": ">=5.4",
+		"respect/validation": "~0.9.0"
+	},
+	"require-dev": {
 		"composer/installers": "1.*",
 		"hypejunction/hypeapps": ">4.0",
 		"hypejunction/hypeprototyper": "*"
-	},
-	"autoload": {
-		"psr-0": {
-			"": "classes/"
-		}
 	}
 }
 
