@@ -76,13 +76,13 @@ function prototyper_validate_type($hook, $type, $validation, $params) {
 			break;
 
 		case 'url' :
-			if (!v::filterVar(FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED)->validate($value)) {
+			if (!v::url()->validate($value)) {
 				$validation->setFail(elgg_echo('prototyper:validate:error:type:url', array($field->getLabel())));
 			}
 			break;
 
 		case 'email' :
-			if (!v::filterVar(FILTER_VALIDATE_EMAIL)->validate($value)) {
+			if (!v::email()->validate($value)) {
 				$validation->setFail(elgg_echo('prototyper:validate:error:type:email', array($field->getLabel())));
 			}
 			break;
