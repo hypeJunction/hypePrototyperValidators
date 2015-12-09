@@ -18,12 +18,11 @@
 		"installer-name": "hypePrototyperValidators"
 	},
 	"require": {
-		"respect/validation": "~0.9.0"
-	},
-	"require-dev": {
-		"composer/installers": "1.*",
-		"hypejunction/hypeapps": ">4.0",
+		"respect/validation": "~0.9.0",
 		"hypejunction/hypeprototyper": "*"
+	},
+	"suggest": {
+		"hypejunction/forms_validation": "*"
 	}
 }
 

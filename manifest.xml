@@ -15,12 +15,17 @@
 
 	<requires>
 		<type>elgg_release</type>
-		<version>1.8</version>
+		<version>2.0</version>
 	</requires>
 
 	<requires>
 		<type>plugin</type>
 		<name>hypePrototyper</name>
 	</requires>
+
+	<suggests>
+		<type>plugin</type>
+		<name>forms_validation</name>
+	</suggests>
 
 </plugin_manifest>
