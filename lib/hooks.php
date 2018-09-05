@@ -37,7 +37,7 @@ function prototyper_validate_type($hook, $type, $validation, $params) {
 
 		case 'text' :
 		case 'string' :
-			if (!v::string()->validate($value)) {
+			if (!v::stringType()->validate($value)) {
 				$validation->setFail(elgg_echo('prototyper:validate:error:type:string', array($field->getLabel())));
 			}
 			break;
@@ -64,7 +64,7 @@ function prototyper_validate_type($hook, $type, $validation, $params) {
 
 		case 'integer' :
 		case 'int' :
-			if (!v::int()->validate($value)) {
+			if (!v::intVal()->validate($value)) {
 				$validation->setFail(elgg_echo('prototyper:validate:error:type:int', array($field->getLabel())));
 			}
 			break;
