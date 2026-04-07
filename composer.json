@@ -17,7 +17,13 @@
 	"extra": {
 		"installer-name": "hypePrototyperValidators"
 	},
+	"autoload": {
+		"psr-4": {
+			"hypeJunction\\PrototyperValidators\\": "classes/hypeJunction/PrototyperValidators/"
+		}
+	},
 	"require": {
+		"php": ">=7.4",
 		"respect/validation": "~0.9.0"
 	},
 	"require-dev": {
