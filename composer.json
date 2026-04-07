@@ -24,6 +24,10 @@
 		"composer/installers": "1.*",
 		"hypejunction/hypeapps": ">4.0",
 		"hypejunction/hypeprototyper": "*"
+	},
+	"config": {
+		"allow-plugins": {
+			"composer/installers": true
+		}
 	}
 }
-
