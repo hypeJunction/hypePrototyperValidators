@@ -1,6 +1,6 @@
 <?php
 
-$validation = array(
+return array(
 	'prototyper:validate:error:type:string' => 'Field %s expects a string value',
 	'prototyper:validate:error:type:alnum' => 'Field %s allows only alphanumeric characters',
 	'prototyper:validate:error:type:alpha' => 'Field %s allows only alphabetic characters',
@@ -52,5 +52,3 @@ $validation = array(
 	'prototyper:validate:error:img_max_height' => 'Field %s expects an image with a maximum height of %spx',
 
 );
-
-add_translation('en', $validation);
