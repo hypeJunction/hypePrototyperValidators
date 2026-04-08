@@ -10,6 +10,10 @@ class Bootstrap extends DefaultPluginBootstrap {
 	 * {@inheritdoc}
 	 */
 	public function init() {
+		if (!function_exists('hypePrototyper')) {
+			return;
+		}
+
 		hypePrototyper()->config->registerValidationRule('type', [
 			'string',
 			'alnum',
