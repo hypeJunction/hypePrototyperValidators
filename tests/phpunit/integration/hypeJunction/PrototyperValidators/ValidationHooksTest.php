@@ -20,16 +20,11 @@ use hypeJunction\Prototyper\Elements\ValidationStatus;
 class ValidationHooksTest extends IntegrationTestCase {
 
     public function getPluginID(): string {
-        return '';
+        return 'hypeprototypervalidators';
     }
 
     public function up() {
-        // Vendored respect/validation ~0.9.0 ships Rules/String.php which is
-        // unparseable on PHP 7+. The plugin cannot boot on PHP 7.4+. Skip the
-        // entire suite until the dependency is upgraded. See bead elgg-migrate-9uea.
-        if (PHP_VERSION_ID >= 70000) {
-            $this->markTestSkipped('hypePrototyperValidators blocked by respect/validation ~0.9 on PHP 7+: Rules/String.php uses reserved word.');
-        }
+        // respect/validation ^2.0 is PHP 7.4+ compatible (upgraded from ~0.9).
     }
 
     public function down() {}
@@ -41,7 +36,7 @@ class ValidationHooksTest extends IntegrationTestCase {
     private function mockField(string $label = 'Test Field', string $type = 'text', bool $multiple = false, string $shortname = 'testfield'): Field {
         $field = $this->getMockBuilder(Field::class)
             ->disableOriginalConstructor()
-            ->onlyMethods(['getLabel', 'getType', 'isMultiple', 'getShortname'])
+            ->onlyMethods(['getLabel', 'getType', 'isMultiple', 'getShortname', 'getValidationRules'])
             ->getMockForAbstractClass();
         $field->method('getLabel')->willReturn($label);
         $field->method('getType')->willReturn($type);

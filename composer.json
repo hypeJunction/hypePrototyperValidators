@@ -7,7 +7,7 @@
 	"keywords": [
 		"elgg", "plugin", "prototypes", "forms", "validators"
 	],
-	"license": "GPL-2.0",
+	"license": "GPL-2.0-or-later",
 	"authors": [
 		{
 			"name": "Ismayil Khayredinov",
@@ -15,7 +15,10 @@
 		}
 	],
 	"extra": {
-		"installer-name": "hypePrototyperValidators"
+		"installer-name": "hypePrototyperValidators",
+		"elgg-plugin": {
+			"id": "hypeprototypervalidators"
+		}
 	},
 	"autoload": {
 		"psr-4": {
@@ -24,12 +27,13 @@
 	},
 	"require": {
 		"php": ">=7.4",
-		"respect/validation": "^2.0"
-	},
-	"require-dev": {
-		"composer/installers": "1.*",
-		"hypejunction/hypeapps": ">4.0",
+		"elgg/elgg": "^4.0",
+		"composer/installers": "^2.0",
+		"respect/validation": "^2.0",
 		"hypejunction/hypeprototyper": "*"
+	},
+	"suggest": {
+		"hypejunction/forms_validation": "Client-side validation via forms_validation"
 	},
 	"config": {
 		"allow-plugins": {

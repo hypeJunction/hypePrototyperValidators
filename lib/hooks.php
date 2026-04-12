@@ -57,14 +57,14 @@ function prototyper_validate_type($hook, $type, $validation, $params) {
 
 		case 'number' :
 		case 'numeric' :
-			if (!v::numeric()->validate($value)) {
+			if (!v::numericVal()->validate($value)) {
 				$validation->setFail(elgg_echo('prototyper:validate:error:type:numeric', array($field->getLabel())));
 			}
 			break;
 
 		case 'integer' :
 		case 'int' :
-			if (!v::intType()->validate($value)) {
+			if (!v::intVal()->validate($value)) {
 				$validation->setFail(elgg_echo('prototyper:validate:error:type:int', array($field->getLabel())));
 			}
 			break;
