@@ -1,5 +1,29 @@
 # Changelog
 
+## 5.0.0 — Elgg 5.x migration
+
+### Breaking changes
+
+- Requires Elgg 5.x (`elgg/elgg: ^5.0`) and PHP 8.2+
+
+### Migration
+
+- `elgg-plugin.php`: renamed `'hooks'` key to `'events'` (Elgg 5.x requirement)
+- Removed `require_once` side-effects from top of `elgg-plugin.php`; moved to `Bootstrap::load()`
+- All 9 event handlers in `lib/hooks.php` converted from the legacy 4-argument
+  `($hook, $type, $value, $params)` signature to `(\Elgg\Event $event)` with
+  `$event->getValue()` / `$event->getParams()` / `$event->getParam()`
+- Docker stack upgraded: PHP 7.4 → 8.2, MySQL 5.7 → 8.0, Elgg 4.x → 5.x install
+
+### Tests
+
+- Updated `ValidationHooksTest`: added `makeEvent()` helper producing a mock
+  `\Elgg\Event`; all direct 4-arg function calls converted to event-based calls
+- Registration tests switched from `_elgg_services()->hooks` to
+  `_elgg_services()->events`
+
+---
+
 ## 4.0.0 — Elgg 4.x migration
 
 ### Migration

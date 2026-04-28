@@ -80,7 +80,8 @@ class ValidationHooksTest extends IntegrationTestCase {
 
     public function testValidateTypeReturnsEarlyWhenFieldMissing(): void {
         $vs = new ValidationStatus();
-        $result = prototyper_validate_type('validate:type', 'prototyper', $vs, []);
+        $result = prototyper_validate_type($this->makeEvent($vs, []));
+
         $this->assertSame($vs, $result);
         $this->assertTrue($result->getStatus());
     }
@@ -308,7 +309,8 @@ class ValidationHooksTest extends IntegrationTestCase {
 
     public function testFilterInputViewVarsReturnsUnchangedWhenNoField(): void {
         $return = ['foo' => 'bar'];
-        $result = prototyper_filter_input_view_vars('input_vars', 'prototyper', $return, []);
+        $result = prototyper_filter_input_view_vars($this->makeEvent($return, []));
+
         $this->assertSame($return, $result);
     }
 
@@ -316,14 +318,16 @@ class ValidationHooksTest extends IntegrationTestCase {
         $field = $this->mockField();
         $field->method('getValidationRules')->willReturn([]);
         $return = ['foo' => 'bar'];
-        $result = prototyper_filter_input_view_vars('input_vars', 'prototyper', $return, ['field' => $field]);
+        $result = prototyper_filter_input_view_vars($this->makeEvent($return, ['field' => $field]));
+
         $this->assertSame($return, $result);
     }
 
     public function testFilterInputViewVarsAddsParsleyTypeAttribute(): void {
         $field = $this->mockField();
         $field->method('getValidationRules')->willReturn(['type' => 'email']);
-        $result = prototyper_filter_input_view_vars('input_vars', 'prototyper', [], ['field' => $field]);
+        $result = prototyper_filter_input_view_vars($this->makeEvent([], ['field' => $field]));
+
         $this->assertArrayHasKey('data-parsley-type', $result);
         $this->assertSame('email', $result['data-parsley-type']);
         $this->assertArrayHasKey('data-parsley-trigger', $result);
@@ -332,21 +336,24 @@ class ValidationHooksTest extends IntegrationTestCase {
     public function testFilterInputViewVarsMapsAlnumTypeToAlphanum(): void {
         $field = $this->mockField();
         $field->method('getValidationRules')->willReturn(['type' => 'alnum']);
-        $result = prototyper_filter_input_view_vars('input_vars', 'prototyper', [], ['field' => $field]);
+        $result = prototyper_filter_input_view_vars($this->makeEvent([], ['field' => $field]));
+
         $this->assertSame('alphanum', $result['data-parsley-type']);
     }
 
     public function testFilterInputViewVarsMapsIntTypeToInteger(): void {
         $field = $this->mockField();
         $field->method('getValidationRules')->willReturn(['type' => 'int']);
-        $result = prototyper_filter_input_view_vars('input_vars', 'prototyper', [], ['field' => $field]);
+        $result = prototyper_filter_input_view_vars($this->makeEvent([], ['field' => $field]));
+
         $this->assertSame('integer', $result['data-parsley-type']);
     }
 
     public function testFilterInputViewVarsMapsRegexToPattern(): void {
         $field = $this->mockField();
         $field->method('getValidationRules')->willReturn(['regex' => '/^abc$/']);
-        $result = prototyper_filter_input_view_vars('input_vars', 'prototyper', [], ['field' => $field]);
+        $result = prototyper_filter_input_view_vars($this->makeEvent([], ['field' => $field]));
+
         $this->assertArrayHasKey('data-parsley-pattern', $result);
         $this->assertSame('/^abc$/', $result['data-parsley-pattern']);
     }
@@ -354,7 +361,8 @@ class ValidationHooksTest extends IntegrationTestCase {
     public function testFilterInputViewVarsGenericRuleBecomesDataAttribute(): void {
         $field = $this->mockField();
         $field->method('getValidationRules')->willReturn(['minlength' => 5]);
-        $result = prototyper_filter_input_view_vars('input_vars', 'prototyper', [], ['field' => $field]);
+        $result = prototyper_filter_input_view_vars($this->makeEvent([], ['field' => $field]));
+
         $this->assertArrayHasKey('data-parsley-minlength', $result);
         $this->assertSame(5, $result['data-parsley-minlength']);
     }
@@ -362,7 +370,8 @@ class ValidationHooksTest extends IntegrationTestCase {
     public function testFilterInputViewVarsAddsMultipleAttributeForCheckboxes(): void {
         $field = $this->mockField('label', 'checkboxes', false, 'mycheckboxes');
         $field->method('getValidationRules')->willReturn(['minlength' => 1]);
-        $result = prototyper_filter_input_view_vars('input_vars', 'prototyper', [], ['field' => $field]);
+        $result = prototyper_filter_input_view_vars($this->makeEvent([], ['field' => $field]));
+
         $this->assertArrayHasKey('data-parsley-multiple', $result);
         $this->assertSame('mycheckboxes', $result['data-parsley-multiple']);
     }
@@ -370,21 +379,24 @@ class ValidationHooksTest extends IntegrationTestCase {
     public function testFilterInputViewVarsAddsMultipleAttributeForRadio(): void {
         $field = $this->mockField('label', 'radio', false, 'myradio');
         $field->method('getValidationRules')->willReturn(['minlength' => 1]);
-        $result = prototyper_filter_input_view_vars('input_vars', 'prototyper', [], ['field' => $field]);
+        $result = prototyper_filter_input_view_vars($this->makeEvent([], ['field' => $field]));
+
         $this->assertSame('myradio', $result['data-parsley-multiple']);
     }
 
     public function testFilterInputViewVarsAddsMultipleAttributeForIsMultipleField(): void {
         $field = $this->mockField('label', 'text', true, 'multifield');
         $field->method('getValidationRules')->willReturn(['minlength' => 1]);
-        $result = prototyper_filter_input_view_vars('input_vars', 'prototyper', [], ['field' => $field]);
+        $result = prototyper_filter_input_view_vars($this->makeEvent([], ['field' => $field]));
+
         $this->assertSame('multifield', $result['data-parsley-multiple']);
     }
 
     public function testFilterInputViewVarsHasNoMultipleForPlainText(): void {
         $field = $this->mockField('label', 'text', false, 'plain');
         $field->method('getValidationRules')->willReturn(['minlength' => 1]);
-        $result = prototyper_filter_input_view_vars('input_vars', 'prototyper', [], ['field' => $field]);
+        $result = prototyper_filter_input_view_vars($this->makeEvent([], ['field' => $field]));
+
         $this->assertArrayNotHasKey('data-parsley-multiple', $result);
     }
 
@@ -416,31 +428,31 @@ class ValidationHooksTest extends IntegrationTestCase {
 
     public function testValidateTypeHookRegistered(): void {
         $this->assertTrue(
-            _elgg_services()->hooks->hasHandler('validate:type', 'prototyper')
+            _elgg_services()->events->hasHandler('validate:type', 'prototyper')
         );
     }
 
     public function testValidateMinMaxHooksRegistered(): void {
-        $hooks = _elgg_services()->hooks;
-        $this->assertTrue($hooks->hasHandler('validate:min', 'prototyper'));
-        $this->assertTrue($hooks->hasHandler('validate:max', 'prototyper'));
+        $events = _elgg_services()->events;
+        $this->assertTrue($events->hasHandler('validate:min', 'prototyper'));
+        $this->assertTrue($events->hasHandler('validate:max', 'prototyper'));
     }
 
     public function testValidateLengthHooksRegistered(): void {
-        $hooks = _elgg_services()->hooks;
-        $this->assertTrue($hooks->hasHandler('validate:minlength', 'prototyper'));
-        $this->assertTrue($hooks->hasHandler('validate:maxlength', 'prototyper'));
+        $events = _elgg_services()->events;
+        $this->assertTrue($events->hasHandler('validate:minlength', 'prototyper'));
+        $this->assertTrue($events->hasHandler('validate:maxlength', 'prototyper'));
     }
 
     public function testValidateContainsRegexHooksRegistered(): void {
-        $hooks = _elgg_services()->hooks;
-        $this->assertTrue($hooks->hasHandler('validate:contains', 'prototyper'));
-        $this->assertTrue($hooks->hasHandler('validate:regex', 'prototyper'));
+        $events = _elgg_services()->events;
+        $this->assertTrue($events->hasHandler('validate:contains', 'prototyper'));
+        $this->assertTrue($events->hasHandler('validate:regex', 'prototyper'));
     }
 
     public function testInputVarsHookRegistered(): void {
         $this->assertTrue(
-            _elgg_services()->hooks->hasHandler('input_vars', 'prototyper')
+            _elgg_services()->events->hasHandler('input_vars', 'prototyper')
         );
     }
 }
