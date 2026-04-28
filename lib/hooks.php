@@ -5,21 +5,14 @@ use hypeJunction\Prototyper\Elements\ImageUploadField;
 use hypeJunction\Prototyper\Elements\ValidationStatus;
 use Respect\Validation\Validator as v;
 
-/**
- * Validates input type
- *
- * @param string           $hook       "validate:type"
- * @param string           $type       "prototyper"
- * @param ValidationStatus $validation Current validation status
- * @param array            $params     Hook params
- * @return ValidationStatus
- */
-function prototyper_validate_type($hook, $type, $validation, $params) {
+function prototyper_validate_type(\Elgg\Event $event) {
 
+	$validation = $event->getValue();
 	if (!$validation instanceof ValidationStatus) {
 		$validation = new ValidationStatus();
 	}
 
+	$params = $event->getParams();
 	$field = elgg_extract('field', $params);
 	if (!$field instanceof Field) {
 		return $validation;
@@ -105,26 +98,18 @@ function prototyper_validate_type($hook, $type, $validation, $params) {
 	return $validation;
 }
 
-/**
- * Validates that input is greater than the expecation
- *
- * @param string           $hook       "validate:min"
- * @param string           $type       "prototyper"
- * @param ValidationStatus $validation Current validation status
- * @param array            $params     Hook params
- * @return ValidationStatus
- */
-function prototyper_validate_min($hook, $type, $validation, $params) {
+function prototyper_validate_min(\Elgg\Event $event) {
 
+	$validation = $event->getValue();
 	if (!$validation instanceof ValidationStatus) {
 		$validation = new ValidationStatus();
 	}
 
+	$params = $event->getParams();
 	$field = elgg_extract('field', $params);
 	if (!$field instanceof Field) {
 		return $validation;
 	}
-
 
 	$rule = elgg_extract('rule', $params);
 	if ($rule != "min") {
@@ -141,21 +126,14 @@ function prototyper_validate_min($hook, $type, $validation, $params) {
 	return $validation;
 }
 
-/**
- * Validates that input is less than the expecation
- *
- * @param string           $hook       "validate:max"
- * @param string           $type       "prototyper"
- * @param ValidationStatus $validation Current validation status
- * @param array            $params     Hook params
- * @return ValidationStatus
- */
-function prototyper_validate_max($hook, $type, $validation, $params) {
+function prototyper_validate_max(\Elgg\Event $event) {
 
+	$validation = $event->getValue();
 	if (!$validation instanceof ValidationStatus) {
 		$validation = new ValidationStatus();
 	}
 
+	$params = $event->getParams();
 	$field = elgg_extract('field', $params);
 	if (!$field instanceof Field) {
 		return $validation;
@@ -176,21 +154,14 @@ function prototyper_validate_max($hook, $type, $validation, $params) {
 	return $validation;
 }
 
-/**
- * Validates that input length is greater than the expecation
- *
- * @param string           $hook       "validate:minlength"
- * @param string           $type       "prototyper"
- * @param ValidationStatus $validation Current validation status
- * @param array            $params     Hook params
- * @return ValidationStatus
- */
-function prototyper_validate_minlength($hook, $type, $validation, $params) {
+function prototyper_validate_minlength(\Elgg\Event $event) {
 
+	$validation = $event->getValue();
 	if (!$validation instanceof ValidationStatus) {
 		$validation = new ValidationStatus();
 	}
 
+	$params = $event->getParams();
 	$field = elgg_extract('field', $params);
 	if (!$field instanceof Field) {
 		return $validation;
@@ -211,21 +182,14 @@ function prototyper_validate_minlength($hook, $type, $validation, $params) {
 	return $validation;
 }
 
-/**
- * Validates that input length is greater than the expecation
- *
- * @param string           $hook       "validate:maxlength"
- * @param string           $type       "prototyper"
- * @param ValidationStatus $validation Current validation status
- * @param array            $params     Hook params
- * @return ValidationStatus
- */
-function prototyper_validate_maxlength($hook, $type, $validation, $params) {
+function prototyper_validate_maxlength(\Elgg\Event $event) {
 
+	$validation = $event->getValue();
 	if (!$validation instanceof ValidationStatus) {
 		$validation = new ValidationStatus();
 	}
 
+	$params = $event->getParams();
 	$field = elgg_extract('field', $params);
 	if (!$field instanceof Field) {
 		return $validation;
@@ -246,21 +210,14 @@ function prototyper_validate_maxlength($hook, $type, $validation, $params) {
 	return $validation;
 }
 
-/**
- * Validates that input contains a string
- *
- * @param string           $hook       "validate:contains"
- * @param string           $type       "prototyper"
- * @param ValidationStatus $validation Current validation status
- * @param array            $params     Hook params
- * @return ValidationStatus
- */
-function prototyper_validate_contains($hook, $type, $validation, $params) {
+function prototyper_validate_contains(\Elgg\Event $event) {
 
+	$validation = $event->getValue();
 	if (!$validation instanceof ValidationStatus) {
 		$validation = new ValidationStatus();
 	}
 
+	$params = $event->getParams();
 	$field = elgg_extract('field', $params);
 	if (!$field instanceof Field) {
 		return $validation;
@@ -281,21 +238,14 @@ function prototyper_validate_contains($hook, $type, $validation, $params) {
 	return $validation;
 }
 
-/**
- * Validates that input matches a regex
- *
- * @param string           $hook       "validate:regex"
- * @param string           $type       "prototyper"
- * @param ValidationStatus $validation Current validation status
- * @param array            $params     Hook params
- * @return ValidationStatus
- */
-function prototyper_validate_regex($hook, $type, $validation, $params) {
+function prototyper_validate_regex(\Elgg\Event $event) {
 
+	$validation = $event->getValue();
 	if (!$validation instanceof ValidationStatus) {
 		$validation = new ValidationStatus();
 	}
 
+	$params = $event->getParams();
 	$field = elgg_extract('field', $params);
 	if (!$field instanceof Field) {
 		return $validation;
@@ -316,20 +266,13 @@ function prototyper_validate_regex($hook, $type, $validation, $params) {
 	return $validation;
 }
 
-/**
- * Validates that input matches a regex
- *
- * @param string           $hook       "validate:img_min_width"
- * @param string           $type       "prototyper"
- * @param ValidationStatus $validation Current validation status
- * @param array            $params     Hook params
- * @return ValidationStatus
- */
-function prototyper_validate_img_dimensions($hook, $type, $validation, $params) {
+function prototyper_validate_img_dimensions(\Elgg\Event $event) {
+	$validation = $event->getValue();
 	if (!$validation instanceof ValidationStatus) {
 		$validation = new ValidationStatus();
 	}
 
+	$params = $event->getParams();
 	$field = elgg_extract('field', $params);
 	if (!$field instanceof ImageUploadField) {
 		return $validation;
@@ -378,16 +321,10 @@ function prototyper_validate_img_dimensions($hook, $type, $validation, $params) 
 	return $validation;
 }
 
-/**
- * Filters input view vars
- *
- * @param string $hook   "input_vars"
- * @param string $type   "prototyper"
- * @param array  $return Vars
- * @param array  $params Hook params
- * @return array
- */
-function prototyper_filter_input_view_vars($hook, $type, $return, $params) {
+function prototyper_filter_input_view_vars(\Elgg\Event $event) {
+
+	$return = $event->getValue();
+	$params = $event->getParams();
 
 	$field = elgg_extract('field', $params);
 	if (!$field instanceof Field) {
@@ -408,7 +345,6 @@ function prototyper_filter_input_view_vars($hook, $type, $return, $params) {
 		'email' => 'email',
 	);
 
-	// Convert validation rules to data- attributes compatible with parsley
 	foreach ($validation as $rule => $expectation) {
 		switch ($rule) {
 			case 'type' :
@@ -427,9 +363,6 @@ function prototyper_filter_input_view_vars($hook, $type, $return, $params) {
 	}
 
 	$return['data-parsley-trigger'] = 'change';
-//	if ($field->isRequired()) {
-//		$return['data-parsley-required'] = true;
-//	}
 	if ($field->isMultiple() || in_array($field->getType(), array('checkboxes', 'radio'))) {
 		$return['data-parsley-multiple'] = $field->getShortname();
 	}

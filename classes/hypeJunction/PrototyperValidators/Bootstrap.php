@@ -6,9 +6,13 @@ use Elgg\DefaultPluginBootstrap;
 
 class Bootstrap extends DefaultPluginBootstrap {
 
-	/**
-	 * {@inheritdoc}
-	 */
+	public function load() {
+		if (file_exists(__DIR__ . '/../../../vendor/autoload.php')) {
+			require_once __DIR__ . '/../../../vendor/autoload.php';
+		}
+		require_once __DIR__ . '/../../../lib/hooks.php';
+	}
+
 	public function init() {
 		if (!function_exists('hypePrototyper')) {
 			return;

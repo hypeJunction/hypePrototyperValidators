@@ -2,6 +2,7 @@
 
 namespace hypeJunction\PrototyperValidators;
 
+use Elgg\Event;
 use Elgg\IntegrationTestCase;
 use hypeJunction\Prototyper\Elements\Field;
 use hypeJunction\Prototyper\Elements\ImageUploadField;
@@ -63,6 +64,16 @@ class ValidationHooksTest extends IntegrationTestCase {
         ];
     }
 
+    private function makeEvent($value, array $params = []): Event {
+        $event = $this->getMockBuilder(Event::class)->disableOriginalConstructor()->getMock();
+        $event->method('getValue')->willReturn($value);
+        $event->method('getParams')->willReturn($params);
+        $event->method('getParam')->willReturnCallback(function (string $key, $default = null) use ($params) {
+            return array_key_exists($key, $params) ? $params[$key] : $default;
+        });
+        return $event;
+    }
+
     /* -------------------------------------------------------------------
      * prototyper_validate_type
      * ------------------------------------------------------------------- */
@@ -77,123 +88,123 @@ class ValidationHooksTest extends IntegrationTestCase {
     public function testValidateTypeReturnsEarlyForOtherRules(): void {
         $vs = new ValidationStatus();
         $params = $this->makeParams($this->mockField(), 'min', 'abc', 5);
-        $result = prototyper_validate_type('validate:type', 'prototyper', $vs, $params);
+        $result = prototyper_validate_type($this->makeEvent($vs, $params));
         $this->assertTrue($result->getStatus());
     }
 
     public function testValidateTypeCreatesStatusWhenNull(): void {
         $params = $this->makeParams($this->mockField(), 'type', 'hello', 'string');
-        $result = prototyper_validate_type('validate:type', 'prototyper', null, $params);
+        $result = prototyper_validate_type($this->makeEvent(null, $params));
         $this->assertInstanceOf(ValidationStatus::class, $result);
         $this->assertTrue($result->getStatus());
     }
 
     public function testValidateTypeStringAcceptsString(): void {
         $params = $this->makeParams($this->mockField(), 'type', 'hello world', 'string');
-        $result = prototyper_validate_type('validate:type', 'prototyper', new ValidationStatus(), $params);
+        $result = prototyper_validate_type($this->makeEvent(new ValidationStatus(), $params));
         $this->assertTrue($result->getStatus());
     }
 
     public function testValidateTypeAlnumRejectsPunct(): void {
         $params = $this->makeParams($this->mockField(), 'type', 'abc!!!', 'alnum');
-        $result = prototyper_validate_type('validate:type', 'prototyper', new ValidationStatus(), $params);
+        $result = prototyper_validate_type($this->makeEvent(new ValidationStatus(), $params));
         $this->assertFalse($result->getStatus());
     }
 
     public function testValidateTypeAlnumAcceptsAlphaNumeric(): void {
         $params = $this->makeParams($this->mockField(), 'type', 'abc123', 'alnum');
-        $result = prototyper_validate_type('validate:type', 'prototyper', new ValidationStatus(), $params);
+        $result = prototyper_validate_type($this->makeEvent(new ValidationStatus(), $params));
         $this->assertTrue($result->getStatus());
     }
 
     public function testValidateTypeAlphaRejectsDigits(): void {
         $params = $this->makeParams($this->mockField(), 'type', 'abc123', 'alpha');
-        $result = prototyper_validate_type('validate:type', 'prototyper', new ValidationStatus(), $params);
+        $result = prototyper_validate_type($this->makeEvent(new ValidationStatus(), $params));
         $this->assertFalse($result->getStatus());
     }
 
     public function testValidateTypeNumericAcceptsNumber(): void {
         $params = $this->makeParams($this->mockField(), 'type', '42.5', 'numeric');
-        $result = prototyper_validate_type('validate:type', 'prototyper', new ValidationStatus(), $params);
+        $result = prototyper_validate_type($this->makeEvent(new ValidationStatus(), $params));
         $this->assertTrue($result->getStatus());
     }
 
     public function testValidateTypeNumericRejectsString(): void {
         $params = $this->makeParams($this->mockField(), 'type', 'abc', 'number');
-        $result = prototyper_validate_type('validate:type', 'prototyper', new ValidationStatus(), $params);
+        $result = prototyper_validate_type($this->makeEvent(new ValidationStatus(), $params));
         $this->assertFalse($result->getStatus());
     }
 
     public function testValidateTypeIntRejectsFloat(): void {
         $params = $this->makeParams($this->mockField(), 'type', '3.14', 'int');
-        $result = prototyper_validate_type('validate:type', 'prototyper', new ValidationStatus(), $params);
+        $result = prototyper_validate_type($this->makeEvent(new ValidationStatus(), $params));
         $this->assertFalse($result->getStatus());
     }
 
     public function testValidateTypeIntAcceptsInt(): void {
         $params = $this->makeParams($this->mockField(), 'type', '42', 'integer');
-        $result = prototyper_validate_type('validate:type', 'prototyper', new ValidationStatus(), $params);
+        $result = prototyper_validate_type($this->makeEvent(new ValidationStatus(), $params));
         $this->assertTrue($result->getStatus());
     }
 
     public function testValidateTypeDateAcceptsIsoDate(): void {
         $params = $this->makeParams($this->mockField(), 'type', '2020-01-15', 'date');
-        $result = prototyper_validate_type('validate:type', 'prototyper', new ValidationStatus(), $params);
+        $result = prototyper_validate_type($this->makeEvent(new ValidationStatus(), $params));
         $this->assertTrue($result->getStatus());
     }
 
     public function testValidateTypeDateRejectsGarbage(): void {
         $params = $this->makeParams($this->mockField(), 'type', 'not-a-date', 'date');
-        $result = prototyper_validate_type('validate:type', 'prototyper', new ValidationStatus(), $params);
+        $result = prototyper_validate_type($this->makeEvent(new ValidationStatus(), $params));
         $this->assertFalse($result->getStatus());
     }
 
     public function testValidateTypeUrlAcceptsValid(): void {
         $params = $this->makeParams($this->mockField(), 'type', 'https://example.com/path', 'url');
-        $result = prototyper_validate_type('validate:type', 'prototyper', new ValidationStatus(), $params);
+        $result = prototyper_validate_type($this->makeEvent(new ValidationStatus(), $params));
         $this->assertTrue($result->getStatus());
     }
 
     public function testValidateTypeUrlRejectsInvalid(): void {
         $params = $this->makeParams($this->mockField(), 'type', 'not a url', 'url');
-        $result = prototyper_validate_type('validate:type', 'prototyper', new ValidationStatus(), $params);
+        $result = prototyper_validate_type($this->makeEvent(new ValidationStatus(), $params));
         $this->assertFalse($result->getStatus());
     }
 
     public function testValidateTypeEmailAcceptsValid(): void {
         $params = $this->makeParams($this->mockField(), 'type', 'foo@example.com', 'email');
-        $result = prototyper_validate_type('validate:type', 'prototyper', new ValidationStatus(), $params);
+        $result = prototyper_validate_type($this->makeEvent(new ValidationStatus(), $params));
         $this->assertTrue($result->getStatus());
     }
 
     public function testValidateTypeEmailRejectsInvalid(): void {
         $params = $this->makeParams($this->mockField(), 'type', 'not-an-email', 'email');
-        $result = prototyper_validate_type('validate:type', 'prototyper', new ValidationStatus(), $params);
+        $result = prototyper_validate_type($this->makeEvent(new ValidationStatus(), $params));
         $this->assertFalse($result->getStatus());
     }
 
     public function testValidateTypeGuidAcceptsExistingEntity(): void {
         $user = $this->createUser();
         $params = $this->makeParams($this->mockField(), 'type', $user->guid, 'guid');
-        $result = prototyper_validate_type('validate:type', 'prototyper', new ValidationStatus(), $params);
+        $result = prototyper_validate_type($this->makeEvent(new ValidationStatus(), $params));
         $this->assertTrue($result->getStatus());
     }
 
     public function testValidateTypeGuidRejectsNonexistentEntity(): void {
         $params = $this->makeParams($this->mockField(), 'type', 999999999, 'guid');
-        $result = prototyper_validate_type('validate:type', 'prototyper', new ValidationStatus(), $params);
+        $result = prototyper_validate_type($this->makeEvent(new ValidationStatus(), $params));
         $this->assertFalse($result->getStatus());
     }
 
     public function testValidateTypeImageAcceptsImageMime(): void {
         $params = $this->makeParams($this->mockField(), 'type', ['type' => 'image/png'], 'image');
-        $result = prototyper_validate_type('validate:type', 'prototyper', new ValidationStatus(), $params);
+        $result = prototyper_validate_type($this->makeEvent(new ValidationStatus(), $params));
         $this->assertTrue($result->getStatus());
     }
 
     public function testValidateTypeImageRejectsNonImageMime(): void {
         $params = $this->makeParams($this->mockField(), 'type', ['type' => 'application/pdf'], 'image');
-        $result = prototyper_validate_type('validate:type', 'prototyper', new ValidationStatus(), $params);
+        $result = prototyper_validate_type($this->makeEvent(new ValidationStatus(), $params));
         $this->assertFalse($result->getStatus());
     }
 
@@ -203,31 +214,31 @@ class ValidationHooksTest extends IntegrationTestCase {
 
     public function testValidateMinAcceptsEqualOrGreater(): void {
         $params = $this->makeParams($this->mockField(), 'min', 10, 5);
-        $result = prototyper_validate_min('validate:min', 'prototyper', new ValidationStatus(), $params);
+        $result = prototyper_validate_min($this->makeEvent(new ValidationStatus(), $params));
         $this->assertTrue($result->getStatus());
     }
 
     public function testValidateMinRejectsLess(): void {
         $params = $this->makeParams($this->mockField(), 'min', 3, 5);
-        $result = prototyper_validate_min('validate:min', 'prototyper', new ValidationStatus(), $params);
+        $result = prototyper_validate_min($this->makeEvent(new ValidationStatus(), $params));
         $this->assertFalse($result->getStatus());
     }
 
     public function testValidateMinReturnsEarlyForOtherRule(): void {
         $params = $this->makeParams($this->mockField(), 'max', 3, 5);
-        $result = prototyper_validate_min('validate:min', 'prototyper', new ValidationStatus(), $params);
+        $result = prototyper_validate_min($this->makeEvent(new ValidationStatus(), $params));
         $this->assertTrue($result->getStatus());
     }
 
     public function testValidateMaxAcceptsEqualOrLess(): void {
         $params = $this->makeParams($this->mockField(), 'max', 4, 5);
-        $result = prototyper_validate_max('validate:max', 'prototyper', new ValidationStatus(), $params);
+        $result = prototyper_validate_max($this->makeEvent(new ValidationStatus(), $params));
         $this->assertTrue($result->getStatus());
     }
 
     public function testValidateMaxRejectsGreater(): void {
         $params = $this->makeParams($this->mockField(), 'max', 99, 5);
-        $result = prototyper_validate_max('validate:max', 'prototyper', new ValidationStatus(), $params);
+        $result = prototyper_validate_max($this->makeEvent(new ValidationStatus(), $params));
         $this->assertFalse($result->getStatus());
     }
 
@@ -237,25 +248,25 @@ class ValidationHooksTest extends IntegrationTestCase {
 
     public function testValidateMinlengthAcceptsLongEnough(): void {
         $params = $this->makeParams($this->mockField(), 'minlength', 'hello world', 5);
-        $result = prototyper_validate_minlength('validate:minlength', 'prototyper', new ValidationStatus(), $params);
+        $result = prototyper_validate_minlength($this->makeEvent(new ValidationStatus(), $params));
         $this->assertTrue($result->getStatus());
     }
 
     public function testValidateMinlengthRejectsTooShort(): void {
         $params = $this->makeParams($this->mockField(), 'minlength', 'hi', 5);
-        $result = prototyper_validate_minlength('validate:minlength', 'prototyper', new ValidationStatus(), $params);
+        $result = prototyper_validate_minlength($this->makeEvent(new ValidationStatus(), $params));
         $this->assertFalse($result->getStatus());
     }
 
     public function testValidateMaxlengthAcceptsShortEnough(): void {
         $params = $this->makeParams($this->mockField(), 'maxlength', 'hi', 5);
-        $result = prototyper_validate_maxlength('validate:maxlength', 'prototyper', new ValidationStatus(), $params);
+        $result = prototyper_validate_maxlength($this->makeEvent(new ValidationStatus(), $params));
         $this->assertTrue($result->getStatus());
     }
 
     public function testValidateMaxlengthRejectsTooLong(): void {
         $params = $this->makeParams($this->mockField(), 'maxlength', 'this is too long', 5);
-        $result = prototyper_validate_maxlength('validate:maxlength', 'prototyper', new ValidationStatus(), $params);
+        $result = prototyper_validate_maxlength($this->makeEvent(new ValidationStatus(), $params));
         $this->assertFalse($result->getStatus());
     }
 
@@ -265,13 +276,13 @@ class ValidationHooksTest extends IntegrationTestCase {
 
     public function testValidateContainsAcceptsSubstring(): void {
         $params = $this->makeParams($this->mockField(), 'contains', 'hello world', 'world');
-        $result = prototyper_validate_contains('validate:contains', 'prototyper', new ValidationStatus(), $params);
+        $result = prototyper_validate_contains($this->makeEvent(new ValidationStatus(), $params));
         $this->assertTrue($result->getStatus());
     }
 
     public function testValidateContainsRejectsMissingSubstring(): void {
         $params = $this->makeParams($this->mockField(), 'contains', 'hello world', 'xyz');
-        $result = prototyper_validate_contains('validate:contains', 'prototyper', new ValidationStatus(), $params);
+        $result = prototyper_validate_contains($this->makeEvent(new ValidationStatus(), $params));
         $this->assertFalse($result->getStatus());
     }
 
@@ -281,13 +292,13 @@ class ValidationHooksTest extends IntegrationTestCase {
 
     public function testValidateRegexAcceptsMatching(): void {
         $params = $this->makeParams($this->mockField(), 'regex', 'abc123', '/^[a-z]+[0-9]+$/');
-        $result = prototyper_validate_regex('validate:regex', 'prototyper', new ValidationStatus(), $params);
+        $result = prototyper_validate_regex($this->makeEvent(new ValidationStatus(), $params));
         $this->assertTrue($result->getStatus());
     }
 
     public function testValidateRegexRejectsNonMatching(): void {
         $params = $this->makeParams($this->mockField(), 'regex', 'ABC', '/^[a-z]+$/');
-        $result = prototyper_validate_regex('validate:regex', 'prototyper', new ValidationStatus(), $params);
+        $result = prototyper_validate_regex($this->makeEvent(new ValidationStatus(), $params));
         $this->assertFalse($result->getStatus());
     }
 

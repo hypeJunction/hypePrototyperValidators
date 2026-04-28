@@ -26,6 +26,18 @@ if (file_exists($pluginRoot . '/vendor/autoload.php')) {
     require_once $pluginRoot . '/vendor/autoload.php';
 }
 
+// hypePrototyper classes (Field, ValidationStatus, etc.) needed by tests.
+// Registered here so mocks can reflect on the abstract Field class.
+$hypePrototyperClasses = $elggRoot . '/mod/hypeprototyper/classes';
+if (is_dir($hypePrototyperClasses)) {
+    spl_autoload_register(function ($class) use ($hypePrototyperClasses) {
+        $file = $hypePrototyperClasses . '/' . str_replace('\\', '/', $class) . '.php';
+        if (file_exists($file)) {
+            require_once $file;
+        }
+    });
+}
+
 // Load hook handler functions (they're plain procedural functions)
 require_once $pluginRoot . '/lib/hooks.php';
 

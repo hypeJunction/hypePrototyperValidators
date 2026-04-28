@@ -1,15 +1,9 @@
 <?php
 
-if (file_exists(__DIR__ . '/vendor/autoload.php')) {
-	require_once __DIR__ . '/vendor/autoload.php';
-}
-
-require_once __DIR__ . '/lib/hooks.php';
-
 return [
 	'bootstrap' => \hypeJunction\PrototyperValidators\Bootstrap::class,
 
-	'hooks' => [
+	'events' => [
 		'validate:type' => [
 			'prototyper' => [
 				'prototyper_validate_type' => [],
