@@ -4,15 +4,29 @@ namespace hypeJunction\PrototyperValidators;
 
 use Elgg\DefaultPluginBootstrap;
 
+/**
+ * Bootstrap class.
+ */
 class Bootstrap extends DefaultPluginBootstrap {
 
+	/**
+	 * load.
+	 *
+	 * @return mixed
+	 */
 	public function load() {
 		if (file_exists(__DIR__ . '/../../../vendor/autoload.php')) {
 			require_once __DIR__ . '/../../../vendor/autoload.php';
 		}
+
 		require_once __DIR__ . '/../../../lib/hooks.php';
 	}
 
+	/**
+	 * init.
+	 *
+	 * @return mixed
+	 */
 	public function init() {
 		if (!function_exists('hypePrototyper')) {
 			return;

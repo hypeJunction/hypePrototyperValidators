@@ -5,6 +5,13 @@ use hypeJunction\Prototyper\Elements\ImageUploadField;
 use hypeJunction\Prototyper\Elements\ValidationStatus;
 use Respect\Validation\Validator as v;
 
+/**
+ * prototyper_validate_type.
+ *
+ * @param \Elgg\Event $event event
+ *
+ * @return mixed
+ */
 function prototyper_validate_type(\Elgg\Event $event) {
 
 	$validation = $event->getValue();
@@ -19,7 +26,7 @@ function prototyper_validate_type(\Elgg\Event $event) {
 	}
 
 	$rule = elgg_extract('rule', $params);
-	if ($rule != "type") {
+	if ($rule != 'type') {
 		return $validation;
 	}
 
@@ -27,70 +34,69 @@ function prototyper_validate_type(\Elgg\Event $event) {
 	$expectation = elgg_extract('expectation', $params);
 
 	switch ($expectation) {
-
-		case 'text' :
-		case 'string' :
+		case 'text':
+		case 'string':
 			if (!v::stringType()->validate($value)) {
-				$validation->setFail(elgg_echo('prototyper:validate:error:type:string', array($field->getLabel())));
+				$validation->setFail(elgg_echo('prototyper:validate:error:type:string', [$field->getLabel()]));
 			}
 			break;
 
-		case 'alnum' :
-		case 'alphanum' :
+		case 'alnum':
+		case 'alphanum':
 			if (!v::alnum()->validate($value)) {
-				$validation->setFail(elgg_echo('prototyper:validate:error:type:alnum', array($field->getLabel())));
+				$validation->setFail(elgg_echo('prototyper:validate:error:type:alnum', [$field->getLabel()]));
 			}
 			break;
 
-		case 'alpha' :
+		case 'alpha':
 			if (!v::alpha()->validate($value)) {
-				$validation->setFail(elgg_echo('prototyper:validate:error:type:alpha', array($field->getLabel())));
+				$validation->setFail(elgg_echo('prototyper:validate:error:type:alpha', [$field->getLabel()]));
 			}
 			break;
 
-		case 'number' :
-		case 'numeric' :
+		case 'number':
+		case 'numeric':
 			if (!v::numericVal()->validate($value)) {
-				$validation->setFail(elgg_echo('prototyper:validate:error:type:numeric', array($field->getLabel())));
+				$validation->setFail(elgg_echo('prototyper:validate:error:type:numeric', [$field->getLabel()]));
 			}
 			break;
 
-		case 'integer' :
-		case 'int' :
+		case 'integer':
+		case 'int':
 			if (!v::intVal()->validate($value)) {
-				$validation->setFail(elgg_echo('prototyper:validate:error:type:int', array($field->getLabel())));
+				$validation->setFail(elgg_echo('prototyper:validate:error:type:int', [$field->getLabel()]));
 			}
 			break;
 
-		case 'date' :
+		case 'date':
 			if (!v::date()->validate($value)) {
-				$validation->setFail(elgg_echo('prototyper:validate:error:type:date', array($field->getLabel())));
+				$validation->setFail(elgg_echo('prototyper:validate:error:type:date', [$field->getLabel()]));
 			}
 			break;
 
-		case 'url' :
+		case 'url':
 			if (!v::filterVar(FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED)->validate($value)) {
-				$validation->setFail(elgg_echo('prototyper:validate:error:type:url', array($field->getLabel())));
+				$validation->setFail(elgg_echo('prototyper:validate:error:type:url', [$field->getLabel()]));
 			}
 			break;
 
-		case 'email' :
+		case 'email':
 			if (!v::filterVar(FILTER_VALIDATE_EMAIL)->validate($value)) {
-				$validation->setFail(elgg_echo('prototyper:validate:error:type:email', array($field->getLabel())));
+				$validation->setFail(elgg_echo('prototyper:validate:error:type:email', [$field->getLabel()]));
 			}
 			break;
 
-		case 'guid' :
-		case 'entity' :
+		case 'guid':
+		case 'entity':
 			if (!elgg_entity_exists($value)) {
-				$validation->setFail(elgg_echo('prototyper:validate:error:type:guid', array($field->getLabel())));
+				$validation->setFail(elgg_echo('prototyper:validate:error:type:guid', [$field->getLabel()]));
 			}
 			break;
 
-		case 'image' :
+		case 'image':
 			$type = elgg_extract('type', $value);
 			if (!$type || substr_count($type, 'image/') == 0) {
-				$validation->setFail(elgg_echo('prototyper:validate:error:type:image', array($field->getLabel())));
+				$validation->setFail(elgg_echo('prototyper:validate:error:type:image', [$field->getLabel()]));
 			}
 			break;
 	}
@@ -98,6 +104,13 @@ function prototyper_validate_type(\Elgg\Event $event) {
 	return $validation;
 }
 
+/**
+ * prototyper_validate_min.
+ *
+ * @param \Elgg\Event $event event
+ *
+ * @return mixed
+ */
 function prototyper_validate_min(\Elgg\Event $event) {
 
 	$validation = $event->getValue();
@@ -112,7 +125,7 @@ function prototyper_validate_min(\Elgg\Event $event) {
 	}
 
 	$rule = elgg_extract('rule', $params);
-	if ($rule != "min") {
+	if ($rule != 'min') {
 		return $validation;
 	}
 
@@ -120,12 +133,19 @@ function prototyper_validate_min(\Elgg\Event $event) {
 	$expectation = elgg_extract('expectation', $params);
 
 	if (!v::min($expectation)->validate($value)) {
-		$validation->setFail(elgg_echo('prototyper:validate:error:min', array($field->getLabel(), $expectation)));
+		$validation->setFail(elgg_echo('prototyper:validate:error:min', [$field->getLabel(), $expectation]));
 	}
 
 	return $validation;
 }
 
+/**
+ * prototyper_validate_max.
+ *
+ * @param \Elgg\Event $event event
+ *
+ * @return mixed
+ */
 function prototyper_validate_max(\Elgg\Event $event) {
 
 	$validation = $event->getValue();
@@ -140,7 +160,7 @@ function prototyper_validate_max(\Elgg\Event $event) {
 	}
 
 	$rule = elgg_extract('rule', $params);
-	if ($rule != "max") {
+	if ($rule != 'max') {
 		return $validation;
 	}
 
@@ -148,12 +168,19 @@ function prototyper_validate_max(\Elgg\Event $event) {
 	$expectation = elgg_extract('expectation', $params);
 
 	if (!v::max($expectation)->validate($value)) {
-		$validation->setFail(elgg_echo('prototyper:validate:error:max', array($field->getLabel(), $expectation)));
+		$validation->setFail(elgg_echo('prototyper:validate:error:max', [$field->getLabel(), $expectation]));
 	}
 
 	return $validation;
 }
 
+/**
+ * prototyper_validate_minlength.
+ *
+ * @param \Elgg\Event $event event
+ *
+ * @return mixed
+ */
 function prototyper_validate_minlength(\Elgg\Event $event) {
 
 	$validation = $event->getValue();
@@ -168,7 +195,7 @@ function prototyper_validate_minlength(\Elgg\Event $event) {
 	}
 
 	$rule = elgg_extract('rule', $params);
-	if ($rule != "minlength") {
+	if ($rule != 'minlength') {
 		return $validation;
 	}
 
@@ -176,12 +203,19 @@ function prototyper_validate_minlength(\Elgg\Event $event) {
 	$expectation = elgg_extract('expectation', $params);
 
 	if (!v::length($expectation, null)->validate($value)) {
-		$validation->setFail(elgg_echo('prototyper:validate:error:minlength', array($field->getLabel(), $expectation)));
+		$validation->setFail(elgg_echo('prototyper:validate:error:minlength', [$field->getLabel(), $expectation]));
 	}
 
 	return $validation;
 }
 
+/**
+ * prototyper_validate_maxlength.
+ *
+ * @param \Elgg\Event $event event
+ *
+ * @return mixed
+ */
 function prototyper_validate_maxlength(\Elgg\Event $event) {
 
 	$validation = $event->getValue();
@@ -196,7 +230,7 @@ function prototyper_validate_maxlength(\Elgg\Event $event) {
 	}
 
 	$rule = elgg_extract('rule', $params);
-	if ($rule != "maxlength") {
+	if ($rule != 'maxlength') {
 		return $validation;
 	}
 
@@ -204,12 +238,19 @@ function prototyper_validate_maxlength(\Elgg\Event $event) {
 	$expectation = elgg_extract('expectation', $params);
 
 	if (!v::length(null, $expectation)->validate($value)) {
-		$validation->setFail(elgg_echo('prototyper:validate:error:maxlength', array($field->getLabel(), $expectation)));
+		$validation->setFail(elgg_echo('prototyper:validate:error:maxlength', [$field->getLabel(), $expectation]));
 	}
 
 	return $validation;
 }
 
+/**
+ * prototyper_validate_contains.
+ *
+ * @param \Elgg\Event $event event
+ *
+ * @return mixed
+ */
 function prototyper_validate_contains(\Elgg\Event $event) {
 
 	$validation = $event->getValue();
@@ -224,7 +265,7 @@ function prototyper_validate_contains(\Elgg\Event $event) {
 	}
 
 	$rule = elgg_extract('rule', $params);
-	if ($rule != "contains") {
+	if ($rule != 'contains') {
 		return $validation;
 	}
 
@@ -232,12 +273,19 @@ function prototyper_validate_contains(\Elgg\Event $event) {
 	$expectation = elgg_extract('expectation', $params);
 
 	if (!v::contains($expectation)->validate($value)) {
-		$validation->setFail(elgg_echo('prototyper:validate:error:contains', array($field->getLabel(), $expectation)));
+		$validation->setFail(elgg_echo('prototyper:validate:error:contains', [$field->getLabel(), $expectation]));
 	}
 
 	return $validation;
 }
 
+/**
+ * prototyper_validate_regex.
+ *
+ * @param \Elgg\Event $event event
+ *
+ * @return mixed
+ */
 function prototyper_validate_regex(\Elgg\Event $event) {
 
 	$validation = $event->getValue();
@@ -252,7 +300,7 @@ function prototyper_validate_regex(\Elgg\Event $event) {
 	}
 
 	$rule = elgg_extract('rule', $params);
-	if ($rule != "regex") {
+	if ($rule != 'regex') {
 		return $validation;
 	}
 
@@ -260,12 +308,19 @@ function prototyper_validate_regex(\Elgg\Event $event) {
 	$expectation = elgg_extract('expectation', $params);
 
 	if (!v::regex($expectation)->validate($value)) {
-		$validation->setFail(elgg_echo('prototyper:validate:error:regex', array($field->getLabel(), $expectation)));
+		$validation->setFail(elgg_echo('prototyper:validate:error:regex', [$field->getLabel(), $expectation]));
 	}
 
 	return $validation;
 }
 
+/**
+ * prototyper_validate_img_dimensions.
+ *
+ * @param \Elgg\Event $event event
+ *
+ * @return mixed
+ */
 function prototyper_validate_img_dimensions(\Elgg\Event $event) {
 	$validation = $event->getValue();
 	if (!$validation instanceof ValidationStatus) {
@@ -285,7 +340,7 @@ function prototyper_validate_img_dimensions(\Elgg\Event $event) {
 	$sizeinfo = getimagesize($img);
 
 	if (!$sizeinfo) {
-		$validation->setFail(elgg_echo('prototyper:validate:error:image_dimensions', array($field->getLabel())));
+		$validation->setFail(elgg_echo('prototyper:validate:error:image_dimensions', [$field->getLabel()]));
 		return $validation;
 	}
 
@@ -293,27 +348,27 @@ function prototyper_validate_img_dimensions(\Elgg\Event $event) {
 
 	$rule = elgg_extract('rule', $params);
 	switch ($rule) {
-		case 'img_min_width' :
+		case 'img_min_width':
 			if ($width < $expectation) {
-				$validation->setFail(elgg_echo('prototyper:validate:error:img_min_width', array($field->getLabel(), $expectation)));
+				$validation->setFail(elgg_echo('prototyper:validate:error:img_min_width', [$field->getLabel(), $expectation]));
 			}
 			break;
 
-		case 'img_max_width' :
+		case 'img_max_width':
 			if ($width > $expectation) {
-				$validation->setFail(elgg_echo('prototyper:validate:error:img_max_width', array($field->getLabel(), $expectation)));
+				$validation->setFail(elgg_echo('prototyper:validate:error:img_max_width', [$field->getLabel(), $expectation]));
 			}
 			break;
 
-		case 'img_min_height' :
+		case 'img_min_height':
 			if ($height < $expectation) {
-				$validation->setFail(elgg_echo('prototyper:validate:error:img_min_height', array($field->getLabel(), $expectation)));
+				$validation->setFail(elgg_echo('prototyper:validate:error:img_min_height', [$field->getLabel(), $expectation]));
 			}
 			break;
 
-		case 'img_max_height' :
+		case 'img_max_height':
 			if ($height > $expectation) {
-				$validation->setFail(elgg_echo('prototyper:validate:error:img_max_height', array($field->getLabel(), $expectation)));
+				$validation->setFail(elgg_echo('prototyper:validate:error:img_max_height', [$field->getLabel(), $expectation]));
 			}
 			break;
 	}
@@ -321,6 +376,13 @@ function prototyper_validate_img_dimensions(\Elgg\Event $event) {
 	return $validation;
 }
 
+/**
+ * prototyper_filter_input_view_vars.
+ *
+ * @param \Elgg\Event $event event
+ *
+ * @return mixed
+ */
 function prototyper_filter_input_view_vars(\Elgg\Event $event) {
 
 	$return = $event->getValue();
@@ -336,22 +398,22 @@ function prototyper_filter_input_view_vars(\Elgg\Event $event) {
 		return $return;
 	}
 
-	$type_map = array(
+	$type_map = [
 		'alnum' => 'alphanum',
 		'int' => 'integer',
 		'numeric' => 'number',
 		'date' => 'false',
 		'url' => 'url',
 		'email' => 'email',
-	);
+	];
 
 	foreach ($validation as $rule => $expectation) {
 		switch ($rule) {
-			case 'type' :
+			case 'type':
 				$return['data-parsley-type'] = elgg_extract($expectation, $type_map, false);
 				break;
 
-			case 'regex' :
+			case 'regex':
 				$return['data-parsley-pattern'] = $expectation;
 				break;
 
@@ -363,7 +425,7 @@ function prototyper_filter_input_view_vars(\Elgg\Event $event) {
 	}
 
 	$return['data-parsley-trigger'] = 'change';
-	if ($field->isMultiple() || in_array($field->getType(), array('checkboxes', 'radio'))) {
+	if ($field->isMultiple() || in_array($field->getType(), ['checkboxes', 'radio'])) {
 		$return['data-parsley-multiple'] = $field->getShortname();
 	}
 

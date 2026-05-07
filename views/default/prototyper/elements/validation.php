@@ -11,22 +11,23 @@ if (empty($validation)) {
 	return;
 }
 
-$items = array();
+$items = [];
 foreach ($validation as $rule => $expectation) {
 	if ($rule == 'type') {
-		if (in_array($expectation, array('text', 'string'))) {
+		if (in_array($expectation, ['text', 'string'])) {
 			continue;
 		}
-		$items[] = elgg_format_element('span', array(
+
+		$items[] = elgg_format_element('span', [
 			'class' => 'prototyper-validation-rules-help',
-				), elgg_echo("prototyper:validate:type:$expectation"));
+		], elgg_echo("prototyper:validate:type:$expectation"));
 	} else {
-		$items[] = elgg_format_element('span', array(
+		$items[] = elgg_format_element('span', [
 			'class' => 'prototyper-validation-rules-help',
-				), elgg_echo("prototyper:validate:$rule", array($expectation)));
+		], elgg_echo("prototyper:validate:$rule", [$expectation]));
 	}
 }
 
-echo elgg_format_element('div', array(
+echo elgg_format_element('div', [
 	'class' => 'elgg-text-help',
-		), implode(', ', $items));
+], implode(', ', $items));
