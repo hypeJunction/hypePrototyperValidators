@@ -1,5 +1,18 @@
 # Changelog
 
+## 7.0.0 — Elgg 7.x migration
+
+### Breaking changes
+
+* Requires Elgg ^7.0 and PHP 8.3+
+
+### Migration (6.x → 7.x)
+
+* Bumped `elgg/elgg: ^7.0`, `php: >=8.3`
+* No additional breaking API changes apply to this plugin
+
+---
+
 ## 6.0.0 — Elgg 6.x migration
 
 ### Breaking changes
