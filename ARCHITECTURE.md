@@ -116,3 +116,7 @@ PHPUnit integration suite at `tests/phpunit/integration/...ValidationHooksTest.p
 - `makeEvent()` helper creates a mock `\Elgg\Event` with stubbed `getValue()`,
   `getParams()`, and `getParam()` so handlers can be called directly
 - Registration tests use `_elgg_services()->events->hasHandler()` (was `->hooks`)
+
+## Seeding
+
+No seeder required. This plugin owns no entity types, subtypes, or persistent relationship schemas — it is a pure UI/utility/admin plugin with no persisted entity surface of its own.
