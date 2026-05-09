@@ -1,6 +1,6 @@
 {
 	"name": "hypejunction/hypeprototypervalidators",
-	"version": "5.0.0",
+	"version": "6.0.0",
 	"type": "elgg-plugin",
 	"description": "hypePrototyper validation rules",
 	"homepage": "https://github.com/hypeJunction/hypePrototyperValidators",
@@ -26,7 +26,7 @@
 	},
 	"require": {
 		"php": ">=8.2",
-		"elgg/elgg": "^5.0",
+		"elgg/elgg": "^6.0",
 		"composer/installers": "^2.0",
 		"respect/validation": "^2.0",
 		"hypejunction/hypeprototyper": "*"

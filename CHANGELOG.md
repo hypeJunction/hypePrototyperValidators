@@ -1,5 +1,16 @@
 # Changelog
 
+## 6.0.0 — Elgg 6.x migration
+
+### Breaking changes
+
+* Requires Elgg ^6.0
+* `elgg_define_js('parsley', [...])` replaced with
+  `elgg_register_external_file('js', 'parsley', ...)` — parsley.min.js loaded
+  as a plain script tag since it is not an ES module
+* `elgg_require_js('parsley')` replaced with `elgg_load_external_file('js', 'parsley')`
+* AMD `js/framework/prototyper_validation.js` converted to ESM placeholder
+
 ## 5.0.0 — Elgg 5.x migration
 
 ### Breaking changes

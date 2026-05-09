@@ -1,4 +1,3 @@
 <?php
 
-elgg_require_js('parsley');
-//elgg_require_js('framework/prototyper_validation');
+elgg_load_external_file('js', 'parsley');
