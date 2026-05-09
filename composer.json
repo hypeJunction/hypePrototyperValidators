@@ -3,15 +3,14 @@
 	"version": "5.0.0",
 	"type": "elgg-plugin",
 	"description": "hypePrototyper validation rules",
-	"homepage": "http://hypejunction.com",
+	"homepage": "https://github.com/hypeJunction/hypePrototyperValidators",
 	"keywords": [
 		"elgg", "plugin", "prototypes", "forms", "validators"
 	],
 	"license": "GPL-2.0-or-later",
 	"authors": [
 		{
-			"name": "Ismayil Khayredinov",
-			"email": "info@hypejunction.com"
+			"name": "hypeJunction"
 		}
 	],
 	"extra": {
