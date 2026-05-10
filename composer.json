@@ -1,45 +1,50 @@
 {
-	"name": "hypejunction/hypeprototypervalidators",
-	"version": "7.0.0",
-	"type": "elgg-plugin",
-	"description": "hypePrototyper validation rules",
-	"homepage": "https://github.com/hypeJunction/hypePrototyperValidators",
-	"keywords": [
-		"elgg", "plugin", "prototypes", "forms", "validators"
-	],
-	"license": "GPL-2.0-or-later",
-	"authors": [
-		{
-			"name": "hypeJunction"
-		}
-	],
-	"extra": {
-		"installer-name": "hypePrototyperValidators",
-		"elgg-plugin": {
-			"id": "hypeprototypervalidators"
-		}
-	},
-	"autoload": {
-		"psr-4": {
-			"hypeJunction\\PrototyperValidators\\": "classes/hypeJunction/PrototyperValidators/"
-		}
-	},
-	"require": {
-		"php": ">=8.3",
-		"elgg/elgg": "^7.0",
-		"composer/installers": "^2.0",
-		"respect/validation": "^2.0",
-		"hypejunction/hypeprototyper": "*"
-	},
-	"suggest": {
-		"hypejunction/forms_validation": "Client-side validation via forms_validation"
-	},
-	"config": {
-		"allow-plugins": {
-			"composer/installers": true
-		},
-		"platform": {
-			"php": "8.2.0"
-		}
-	}
+    "name": "hypejunction/hypeprototypervalidators",
+    "version": "7.0.0",
+    "type": "elgg-plugin",
+    "description": "hypePrototyper validation rules",
+    "homepage": "https://github.com/hypeJunction/hypePrototyperValidators",
+    "keywords": [
+        "elgg",
+        "plugin",
+        "prototypes",
+        "forms",
+        "validators"
+    ],
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Ismayil Khayredinov",
+            "email": "ismayil.khayredinov@gmail.com"
+        }
+    ],
+    "extra": {
+        "installer-name": "hypeprototypervalidators",
+        "elgg-plugin": {
+            "id": "hypeprototypervalidators"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "hypeJunction\\PrototyperValidators\\": "classes/hypeJunction/PrototyperValidators/"
+        }
+    },
+    "require": {
+        "php": ">=8.3",
+        "elgg/elgg": "^7.0",
+        "composer/installers": "^2.0",
+        "respect/validation": "^2.0",
+        "hypejunction/hypeprototyper": "*"
+    },
+    "suggest": {
+        "hypejunction/forms_validation": "Client-side validation via forms_validation"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true
+        },
+        "platform": {
+            "php": "8.2.0"
+        }
+    }
 }
