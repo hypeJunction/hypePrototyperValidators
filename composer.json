@@ -1,6 +1,5 @@
 {
     "name": "hypejunction/hypeprototypervalidators",
-    "version": "7.0.0",
     "type": "elgg-plugin",
     "description": "hypePrototyper validation rules",
     "homepage": "https://github.com/hypeJunction/hypePrototyperValidators",
