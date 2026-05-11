@@ -14,7 +14,7 @@
 		}
 	],
 	"extra": {
-		"installer-name": "hypePrototyperValidators",
+		"installer-name": "hypeprototypervalidators",
 		"elgg-plugin": {
 			"id": "hypeprototypervalidators"
 		}
