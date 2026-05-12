@@ -29,6 +29,7 @@
 	"require-dev": {
 		"composer/installers": "1.*",
 		"hypejunction/hypeapps": ">4.0",
-		"hypejunction/hypeprototyper": "*"
+		"hypejunction/hypeprototyper": "*",
+		"phpunit/phpunit": "^9.6"
 	}
 }
