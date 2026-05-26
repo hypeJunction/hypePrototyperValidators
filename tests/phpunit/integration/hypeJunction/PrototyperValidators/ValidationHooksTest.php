@@ -405,20 +405,20 @@ class ValidationHooksTest extends IntegrationTestCase {
      * ------------------------------------------------------------------- */
 
     public function testValidationHelpViewExists(): void {
-        $this->assertTrue(elgg_view_exists('prototyper/elements/validation'));
+        $this->assertTrue(\elgg_view_exists('prototyper/elements/validation'));
     }
 
     public function testJsValidationViewExists(): void {
-        $this->assertTrue(elgg_view_exists('prototyper/elements/js_validation'));
+        $this->assertTrue(\elgg_view_exists('prototyper/elements/js_validation'));
     }
 
     public function testValidationHelpViewReturnsNothingWhenNoField(): void {
-        $out = elgg_view('prototyper/elements/validation', []);
+        $out = \elgg_view('prototyper/elements/validation', []);
         $this->assertSame('', trim($out));
     }
 
     public function testJsValidationViewRendersWithoutError(): void {
-        $out = elgg_view('prototyper/elements/js_validation', []);
+        $out = \elgg_view('prototyper/elements/js_validation', []);
         $this->assertIsString($out);
     }
 
@@ -428,31 +428,31 @@ class ValidationHooksTest extends IntegrationTestCase {
 
     public function testValidateTypeHookRegistered(): void {
         $this->assertTrue(
-            _elgg_services()->events->hasHandler('validate:type', 'prototyper')
+            \_elgg_services()->events->hasHandler('validate:type', 'prototyper')
         );
     }
 
     public function testValidateMinMaxHooksRegistered(): void {
-        $events = _elgg_services()->events;
+        $events = \_elgg_services()->events;
         $this->assertTrue($events->hasHandler('validate:min', 'prototyper'));
         $this->assertTrue($events->hasHandler('validate:max', 'prototyper'));
     }
 
     public function testValidateLengthHooksRegistered(): void {
-        $events = _elgg_services()->events;
+        $events = \_elgg_services()->events;
         $this->assertTrue($events->hasHandler('validate:minlength', 'prototyper'));
         $this->assertTrue($events->hasHandler('validate:maxlength', 'prototyper'));
     }
 
     public function testValidateContainsRegexHooksRegistered(): void {
-        $events = _elgg_services()->events;
+        $events = \_elgg_services()->events;
         $this->assertTrue($events->hasHandler('validate:contains', 'prototyper'));
         $this->assertTrue($events->hasHandler('validate:regex', 'prototyper'));
     }
 
     public function testInputVarsHookRegistered(): void {
         $this->assertTrue(
-            _elgg_services()->events->hasHandler('input_vars', 'prototyper')
+            \_elgg_services()->events->hasHandler('input_vars', 'prototyper')
         );
     }
 }
