@@ -387,9 +387,11 @@ function prototyper_validate_img_dimensions($hook, $type, $validation, $params) 
  * @param array  $params Hook params
  * @return array
  */
-function prototyper_filter_input_view_vars($hook, $type, $return, $params) {
+function prototyper_filter_input_view_vars(\Elgg\Hook $hook) {
+		$return = $hook->getValue();
 
-	$field = elgg_extract('field', $params);
+
+	$field = $hook->getParam('field');
 	if (!$field instanceof Field) {
 		return $return;
 	}
