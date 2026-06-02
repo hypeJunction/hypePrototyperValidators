@@ -53,7 +53,7 @@ class Bootstrap extends DefaultPluginBootstrap {
 		hypePrototyper()->config->registerValidationRule('regex');
 
 		\elgg_define_js('parsley', [
-			'src' => '/mod/hypePrototyperValidators/vendors/parsley/parsley.min.js',
+			'src' => '/mod/hypeprototypervalidators/vendors/parsley/parsley.min.js',
 			'deps' => ['jquery'],
 		]);
 	}
