@@ -14,7 +14,13 @@ use Respect\Validation\Validator as v;
  * @param array            $params     Hook params
  * @return ValidationStatus
  */
-function prototyper_validate_type($hook, $type, $validation, $params) {
+function prototyper_validate_type($hook, $type = null, $validation = null, $params = null) {
+
+	if ($hook instanceof \Elgg\Hook) {
+		$type = $hook->getType();
+		$validation = $hook->getValue();
+		$params = $hook->getParams();
+	}
 
 	if (!$validation instanceof ValidationStatus) {
 		$validation = new ValidationStatus();
@@ -114,7 +120,13 @@ function prototyper_validate_type($hook, $type, $validation, $params) {
  * @param array            $params     Hook params
  * @return ValidationStatus
  */
-function prototyper_validate_min($hook, $type, $validation, $params) {
+function prototyper_validate_min($hook, $type = null, $validation = null, $params = null) {
+
+	if ($hook instanceof \Elgg\Hook) {
+		$type = $hook->getType();
+		$validation = $hook->getValue();
+		$params = $hook->getParams();
+	}
 
 	if (!$validation instanceof ValidationStatus) {
 		$validation = new ValidationStatus();
@@ -150,7 +162,13 @@ function prototyper_validate_min($hook, $type, $validation, $params) {
  * @param array            $params     Hook params
  * @return ValidationStatus
  */
-function prototyper_validate_max($hook, $type, $validation, $params) {
+function prototyper_validate_max($hook, $type = null, $validation = null, $params = null) {
+
+	if ($hook instanceof \Elgg\Hook) {
+		$type = $hook->getType();
+		$validation = $hook->getValue();
+		$params = $hook->getParams();
+	}
 
 	if (!$validation instanceof ValidationStatus) {
 		$validation = new ValidationStatus();
@@ -185,7 +203,13 @@ function prototyper_validate_max($hook, $type, $validation, $params) {
  * @param array            $params     Hook params
  * @return ValidationStatus
  */
-function prototyper_validate_minlength($hook, $type, $validation, $params) {
+function prototyper_validate_minlength($hook, $type = null, $validation = null, $params = null) {
+
+	if ($hook instanceof \Elgg\Hook) {
+		$type = $hook->getType();
+		$validation = $hook->getValue();
+		$params = $hook->getParams();
+	}
 
 	if (!$validation instanceof ValidationStatus) {
 		$validation = new ValidationStatus();
@@ -220,7 +244,13 @@ function prototyper_validate_minlength($hook, $type, $validation, $params) {
  * @param array            $params     Hook params
  * @return ValidationStatus
  */
-function prototyper_validate_maxlength($hook, $type, $validation, $params) {
+function prototyper_validate_maxlength($hook, $type = null, $validation = null, $params = null) {
+
+	if ($hook instanceof \Elgg\Hook) {
+		$type = $hook->getType();
+		$validation = $hook->getValue();
+		$params = $hook->getParams();
+	}
 
 	if (!$validation instanceof ValidationStatus) {
 		$validation = new ValidationStatus();
@@ -255,7 +285,13 @@ function prototyper_validate_maxlength($hook, $type, $validation, $params) {
  * @param array            $params     Hook params
  * @return ValidationStatus
  */
-function prototyper_validate_contains($hook, $type, $validation, $params) {
+function prototyper_validate_contains($hook, $type = null, $validation = null, $params = null) {
+
+	if ($hook instanceof \Elgg\Hook) {
+		$type = $hook->getType();
+		$validation = $hook->getValue();
+		$params = $hook->getParams();
+	}
 
 	if (!$validation instanceof ValidationStatus) {
 		$validation = new ValidationStatus();
@@ -290,7 +326,13 @@ function prototyper_validate_contains($hook, $type, $validation, $params) {
  * @param array            $params     Hook params
  * @return ValidationStatus
  */
-function prototyper_validate_regex($hook, $type, $validation, $params) {
+function prototyper_validate_regex($hook, $type = null, $validation = null, $params = null) {
+
+	if ($hook instanceof \Elgg\Hook) {
+		$type = $hook->getType();
+		$validation = $hook->getValue();
+		$params = $hook->getParams();
+	}
 
 	if (!$validation instanceof ValidationStatus) {
 		$validation = new ValidationStatus();
