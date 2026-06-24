@@ -1,3 +1,2 @@
 <?php
-
-elgg_load_external_file('js', 'parsley');
+// Parsley is loaded as an Elgg 7 ES module by forms_validation; nothing to do here.

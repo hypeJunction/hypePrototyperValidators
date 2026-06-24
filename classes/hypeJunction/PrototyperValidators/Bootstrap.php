@@ -52,6 +52,10 @@ class Bootstrap extends DefaultPluginBootstrap {
 		hypePrototyper()->config->registerValidationRule('contains');
 		hypePrototyper()->config->registerValidationRule('regex');
 
-		elgg_register_external_file('js', 'parsley', '/mod/hypePrototyperValidators/vendors/parsley/parsley.min.js');
+		// Parsley is provided as an Elgg 7 ES module by forms_validation
+		// (elgg_register_esm('parsley.js', ...) + its validation.mjs binds
+		// [data-parsley-validate] forms). Loading our own classic <script> copy
+		// here is redundant and broken on Elgg 7 (no global jQuery at <script>
+		// time -> "jQuery is not defined"), so it is removed.
 	}
 }
